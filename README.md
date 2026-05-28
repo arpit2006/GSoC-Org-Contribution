@@ -371,7 +371,7 @@ For the full contributing reference (architecture, rules, PR workflow), see [CON
 This repo uses a **maintainer-verified** assignment system:
 
 1. Find an issue and comment `/assign gssoc` or `/assign nsoc`
-2. Your request is **queued** (not immediately assigned)
+2. Your request will be **queued** (not immediately assigned)
 3. A maintainer verifies the issue and runs `/approve-assignment`
 4. You get notified and can begin work
 

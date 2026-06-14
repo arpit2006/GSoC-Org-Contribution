@@ -1239,6 +1239,24 @@
       renderFaqList();
 
       // Patch footer links and styling after dynamic load
+      patchFooterLinks();
+
+      // FAQ accordion delegation (handles dynamically rendered FAQ buttons)
+      var faqList = document.getElementById('faqList');
+      if (faqList) {
+        faqList.addEventListener('click', function (e) {
+          var btn = e.target.closest('.faq-trigger');
+          if (!btn) { return; }
+          var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+        });
+      }
+
+      wireAnchorScroll();
+    });
+
+    /** Polls for the dynamically-injected footer and patches its links/classes. */
+    function patchFooterLinks() {
       var footerAttempts = 0;
       var checkFooter = setInterval(function () {
         footerAttempts++;
@@ -1256,18 +1274,10 @@
           clearInterval(checkFooter);
         }
       }, 50);
+    }
 
-      // FAQ accordion delegation (handles dynamically rendered FAQ buttons)
-      var faqList = document.getElementById('faqList');
-      if (faqList) {
-        faqList.addEventListener('click', function (e) {
-          var btn = e.target.closest('.faq-trigger');
-          if (!btn) { return; }
-          var isExpanded = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
-        });
-      }
-
+    /** Wires smooth-scroll behaviour on all in-page anchor links. */
+    function wireAnchorScroll() {
       var NAVBAR_HEIGHT = 72;
       document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
         anchor.addEventListener('click', function (e) {
@@ -1286,7 +1296,7 @@
           window.scrollTo({ top: Math.max(0, top), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         });
       });
-    });
+    }
 
     // Scroll-triggered fade-in for How It Works step cards
     (function () {
